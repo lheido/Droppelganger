@@ -1,0 +1,12 @@
+{
+    "name": "Droppelganger",
+    "version": "0.0.0",
+    "description": "Another drag and drop javascript library.",
+    "author": "Treille Léonard <leonard.treille@gmail.com>",
+    "dependencies": {
+        "grunt": "*",
+        "grunt-contrib-sass": "*",
+        "grunt-contrib-watch": "*",
+        "grunt-contrib-uglify": "*"
+    }
+}

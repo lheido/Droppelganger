@@ -1,0 +1,31 @@
+{
+  "name": "Droppelganger",
+  "version": "0.0.0",
+  "homepage": "https://github.com/lheido/Droppelganger",
+  "authors": [
+    "leonard.treille@gmail.com"
+  ],
+  "description": "Another drag and drop javascript library.",
+  "main": [
+      "droppelganger.js",
+      "droppelganger.css"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "droppelganger",
+    "drag and drop"
+  ],
+  "license": "GPLv3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "hammerjs": "~2.0.4"
+  }
+}
