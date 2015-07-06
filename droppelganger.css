@@ -6,17 +6,10 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    
-    border: 1px solid black;
-    padding: 32px;
-    margin: 42px;
 }
 
 
 .droppelganger-item {
-    background-color: grey;
-    padding: 32px;
-    margin: 10px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -28,4 +21,9 @@
 .droppelganger-item.moving {
     position: absolute;
     z-index: 1000;
+    
+}
+
+.droppelganger-container.container-hovered {
+    
 }
