@@ -27,3 +27,12 @@
 .droppelganger-container.container-hovered {
     
 }
+
+.droppelganger-item, .droppelganger-item-handler {
+    cursor: grab;
+}
+
+.droppelganger-item.moving, 
+.droppelganger-item.moving .droppelganger-item-handler{
+    cursor: grabbing;
+}

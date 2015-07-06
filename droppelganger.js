@@ -1,13 +1,20 @@
 var Droppelganger = function(options) {
     if (Hammer == undefined) {
-        throw "Droppelganger depend on hammerjs lib. please install it before use it.";
+        throw "Droppelganger depend on hammerjs lib. please install/load it before use it.";
     }
     this.setOptions(options);
     this.containers = document.getElementsByClassName('droppelganger-container');
     this.items = document.getElementsByClassName('droppelganger-item');
     var self = this;
     Hammer.each(this.items, function(item, index, src){
-        var mc = new Hammer(item);
+        var mc;
+        var handlers = item.getElementsByClassName('droppelganger-item-handler');
+        if (handlers.length > 0) {
+            mc = new Hammer(handlers[0]);
+            item.style.cursor = 'default';
+        } else {
+            mc = new Hammer(item);
+        }
         mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
         mc.on('panstart', function(e){
             self.onPanStart(e, item);
