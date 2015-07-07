@@ -6,12 +6,12 @@ Make sure bower is installed before run this at root directory:
 
 ## Options
 Droppelganger accept some options:
-
- - sortable: true (default) or false.
- - style: javascript object: 
 ```javascript
-style: {
+var options = {}
+ options.style =  {
   'moving': 'custom-style-when-item-moving',
   'container-hovered': 'custom-style-when-container-is-hovered'
-}
+ };
+ options.sortable = false; //or true by default
+var droppelganger = new Droppelganger(options);
 ```
