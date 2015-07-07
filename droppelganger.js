@@ -1,19 +1,16 @@
 var Droppelganger = function(options) {
     if (Hammer == undefined) {
-        throw "Droppelganger depend on hammerjs lib. please install/load it before use it.";
+        throw "Hammer is undefined";
     }
     this.setOptions(options);
     this.containers = document.getElementsByClassName('droppelganger-container');
     this.items = document.getElementsByClassName('droppelganger-item');
     var self = this;
     Hammer.each(this.items, function(item, index, src){
-        var mc;
         var handles = item.getElementsByClassName('droppelganger-item-handle');
+        var mc = new Hammer((handles.length > 0) ? handles[0]: item);
         if (handles.length > 0) {
-            mc = new Hammer(handles[0]);
             item.style.cursor = 'default';
-        } else {
-            mc = new Hammer(item);
         }
         mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
         mc.on('panstart', function(e){
@@ -30,18 +27,19 @@ var Droppelganger = function(options) {
 
 (function() {
     this.setOptions = function(options) {
+        var opt = (typeof options == 'undefined') ? {} : options;
         this.customStyle = {
             moving: false,
             containerHovered: false
         };
-        if (typeof options != 'undefined' && typeof options.style != 'undefined') {
-            for (var id in options.style) {
+        if (typeof opt.style != 'undefined') {
+            for (var id in opt.style) {
                 switch (id) {
                     case 'moving':
-                        this.customStyle.moving = options.style[id];
+                        this.customStyle.moving = opt.style[id];
                         break;
                     case 'container-hovered':
-                        this.customStyle.containerHovered = options.style[id];
+                        this.customStyle.containerHovered = opt.style[id];
                         break;
                     default:
                         break;
@@ -50,20 +48,20 @@ var Droppelganger = function(options) {
         }
         
         this.sortable = true;
-        if (typeof options != 'undefined' && typeof options.sortable != 'undefined') {
-            this.sortable = options.sortable;
+        if (typeof opt.sortable != 'undefined') {
+            this.sortable = opt.sortable;
         }
         
-        if (typeof options != 'undefined' && typeof options.panStartCallback != 'undefined') {
-            this.panStartCallback = options.panStartCallback;
+        if (typeof opt.panStartCallback != 'undefined') {
+            this.panStartCallback = opt.panStartCallback;
         }
         
-        if (typeof options != 'undefined' && typeof options.panMoveCallback != 'undefined') {
-            this.panMoveCallback = options.panMoveCallback;
+        if (typeof opt.panMoveCallback != 'undefined') {
+            this.panMoveCallback = opt.panMoveCallback;
         }
         
-        if (typeof options != 'undefined' && typeof options.panEndCallback != 'undefined') {
-            this.panEndCallback = options.panEndCallback;
+        if (typeof opt.panEndCallback != 'undefined') {
+            this.panEndCallback = opt.panEndCallback;
         }
     };
     
