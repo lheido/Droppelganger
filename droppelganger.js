@@ -48,9 +48,22 @@ var Droppelganger = function(options) {
                 }
             }
         }
+        
         this.sortable = true;
         if (typeof options != 'undefined' && typeof options.sortable != 'undefined') {
             this.sortable = options.sortable;
+        }
+        
+        if (typeof options != 'undefined' && typeof options.panStartCallback != 'undefined') {
+            this.panStartCallback = options.panStartCallback;
+        }
+        
+        if (typeof options != 'undefined' && typeof options.panMoveCallback != 'undefined') {
+            this.panMoveCallback = options.panMoveCallback;
+        }
+        
+        if (typeof options != 'undefined' && typeof options.panEndCallback != 'undefined') {
+            this.panEndCallback = options.panEndCallback;
         }
     };
     
@@ -78,6 +91,10 @@ var Droppelganger = function(options) {
         };
         
         this.applyItemStyle(item);
+        
+        if (typeof this.panStartCallback != 'undefined') {
+            this.panStartCallback(item, item.parentNode);    
+        }
     };
     
     this.onPanMove = function(event, item){
@@ -113,6 +130,10 @@ var Droppelganger = function(options) {
         if (container && !container.isEqualNode(item.parentNode)) {
             this.applyContainerStyle(container);
         }
+        
+        if (typeof this.panMoveCallback != 'undefined') {
+            this.panMoveCallback(item, (container)? container : item.parentNode);    
+        }
     };
     
     this.onPanEnd = function(event, item){
@@ -128,6 +149,9 @@ var Droppelganger = function(options) {
         //reset style
         this.resetItemStyle(item);
         this.resetContainersStyle();
+        if (typeof this.panEndCallback != 'undefined') {
+            this.panEndCallback(item, (container)? container : item.parentNode);    
+        }
     };
     
     this.isInContainer = function(item) {

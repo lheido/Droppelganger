@@ -8,10 +8,26 @@ Make sure bower is installed before run this at root directory:
 Droppelganger accept some options:
 ```javascript
 var options = {};
- options.style =  {
+
+options.style =  {
   'moving': 'custom-style-when-item-moving',
   'container-hovered': 'custom-style-when-container-is-hovered'
- };
- options.sortable = false; //or true by default
+};
+
+options.sortable = false; //or true by default
+
+options.panStartCallback = function(item, container) {
+  //do something at the end of panstart event
+};
+
+options.panMoveCallback = function(item, container) {
+  //do something at the end of panmove event
+};
+
+options.panEndCallback = function(item, container) {
+  //do something at the end of panend event
+};
+
+//call Droppelganger constructor
 var droppelganger = new Droppelganger(options);
 ```
