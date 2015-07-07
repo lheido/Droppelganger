@@ -48,8 +48,10 @@ var Droppelganger = function(options) {
                 }
             }
         }
-        
-        this.sortable = (typeof options != 'undefined' && typeof options.sortable != 'undefined') ? options.sortable : true;
+        this.sortable = true;
+        if (typeof options != 'undefined' && typeof options.sortable != 'undefined') {
+            this.sortable = options.sortable;
+        }
     };
     
     this.onPanStart = function(event, item){
