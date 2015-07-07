@@ -7,7 +7,7 @@ Make sure bower is installed before run this at root directory:
 ## Options
 Droppelganger accept some options:
 ```javascript
-var options = {}
+var options = {};
  options.style =  {
   'moving': 'custom-style-when-item-moving',
   'container-hovered': 'custom-style-when-container-is-hovered'
