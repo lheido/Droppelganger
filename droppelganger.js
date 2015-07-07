@@ -8,9 +8,9 @@ var Droppelganger = function(options) {
     var self = this;
     Hammer.each(this.items, function(item, index, src){
         var mc;
-        var handlers = item.getElementsByClassName('droppelganger-item-handler');
-        if (handlers.length > 0) {
-            mc = new Hammer(handlers[0]);
+        var handles = item.getElementsByClassName('droppelganger-item-handle');
+        if (handles.length > 0) {
+            mc = new Hammer(handles[0]);
             item.style.cursor = 'default';
         } else {
             mc = new Hammer(item);

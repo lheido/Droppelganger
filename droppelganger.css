@@ -28,11 +28,11 @@
     
 }
 
-.droppelganger-item, .droppelganger-item-handler {
+.droppelganger-item, .droppelganger-item-handle {
     cursor: grab;
 }
 
 .droppelganger-item.moving, 
-.droppelganger-item.moving .droppelganger-item-handler{
-    cursor: grabbing;
+.droppelganger-item.moving .droppelganger-item-handle {
+    cursor: move;
 }
