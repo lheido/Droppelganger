@@ -49,7 +49,7 @@ var Droppelganger = function(options) {
                     case 'moving':
                         this.customStyle.moving = opt.style[id];
                         break;
-                    case 'container-hovered':
+                    case 'container-overflown':
                         this.customStyle.containerHovered = opt.style[id];
                         break;
                     default:
@@ -71,16 +71,21 @@ var Droppelganger = function(options) {
             this.panMoveCallback = opt.panMoveCallback;
         }
         
-        if (typeof opt.panEndCallback != 'undefined') {
-            this.panEndCallback = opt.panEndCallback;
+        if (typeof opt.afterPanEnd != 'undefined') {
+            this.afterPanEnd = opt.afterPanEnd;
         }
+        
+        if (typeof opt.beforePanEnd != 'undefined') {
+            this.beforePanEnd = opt.beforePanEnd;
+        }
+        
         this.selectors = {
             container: 'droppelganger-container',
             item     : 'droppelganger-item',
             handle   : 'droppelganger-item-handle'
         }
         if (typeof opt.selectors != 'undefined') {
-            for (var prop in opt.selectors) {
+            for (var prop in this.selectors) {
                 if (typeof opt.selectors[prop] != 'undefined') {
                     this.selectors[prop] = opt.selectors[prop];
                 }
@@ -114,7 +119,7 @@ var Droppelganger = function(options) {
         this.applyItemStyle(item);
         
         if (typeof this.panStartCallback != 'undefined') {
-            this.panStartCallback(event, item, item.parentNode);    
+            this.panStartCallback(event, item);    
         }
     };
     
@@ -153,25 +158,31 @@ var Droppelganger = function(options) {
         }
         
         if (typeof this.panMoveCallback != 'undefined') {
-            this.panMoveCallback(event, item, (container)? container : item.parentNode);    
+            this.panMoveCallback(event, item, container);    
         }
     };
     
     this.onPanEnd = function(event, item){
         var container = this.isInContainer(item);
+        if (typeof this.beforePanEnd != 'undefined') {
+            this.beforePanEnd(event, item, container);
+        }
         if (container) {
             if (!this.sortable) {
                 container.appendChild(this.phantom);
             }
             container.replaceChild(item, this.phantom);
         } else {
-            item.parentNode.removeChild(this.phantom);
+            if (this.phantom != null && this.phantom.contains(item.parentNode)) {
+                item.parentNode.removeChild(this.phantom);
+            }
         }
+        this.phantom = null;
         //reset style
         this.resetItemStyle(item);
         this.resetContainersStyle();
-        if (typeof this.panEndCallback != 'undefined') {
-            this.panEndCallback(event, item, (container)? container : item.parentNode);    
+        if (typeof this.afterPanEnd != 'undefined') {
+            this.afterPanEnd(event, item, container);    
         }
     };
     
@@ -192,7 +203,7 @@ var Droppelganger = function(options) {
     
     this.resetContainersStyle = function() {
         for (var i = 0; i < this.containers.length; i++) {
-            this.containers[i].classList.remove('container-hovered');
+            this.containers[i].classList.remove('container-overflown');
             if (this.customStyle.containerHovered) {
                 this.containers[i].classList.remove(this.customStyle.containerHovered);
             }
@@ -200,7 +211,7 @@ var Droppelganger = function(options) {
     };
     
     this.applyContainerStyle = function(container){
-        container.classList.add('container-hovered');
+        container.classList.add('container-overflown');
         if (this.customStyle.containerHovered) {
             container.classList.add(this.customStyle.containerHovered);
         }

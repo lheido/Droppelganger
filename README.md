@@ -23,15 +23,30 @@ options.style =  {
 
 options.sortable = false; //or true by default
 
-options.panStartCallback = function(event, item, container) {
+options.panStartCallback = function(event, item) {
+  /*
+   * event: event object from hammerjs.
+   * item : current item dragged by user.
+   * item.parentNode to get the container.
+   */
   //do something at the end of panstart event
 };
 
 options.panMoveCallback = function(event, item, container) {
+  /*
+   * event: event object from hammerjs.
+   * item : current item dragged by user.
+   * container: container if item is over a container else false.
+   */
   //do something at the end of panmove event
 };
 
-options.panEndCallback = function(event, item, container) {
+options.afterPanEnd = function(event, item, container) {
+  /*
+   * event    : event object from hammerjs.
+   * item     : current item dragged by user.
+   * container: container if item is over a container else false.
+   */
   //do something at the end of panend event
 };
 
