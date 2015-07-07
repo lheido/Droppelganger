@@ -48,6 +48,8 @@ var Droppelganger = function(options) {
                 }
             }
         }
+        
+        this.sortable = (typeof options != 'undefined' && typeof options.sortable != 'undefined') ? options.sortable : true;
     };
     
     this.onPanStart = function(event, item){
@@ -83,24 +85,25 @@ var Droppelganger = function(options) {
         item.style.left = newLeft + 'px';
         
         var container = this.isInContainer(item);
-        
-        if (container) {
-            var hovered_i = -1;
-            for (var i = 0; i < container.children.length; i++) {
-                var child = container.children[i];
-                if (!child.isEqualNode(item) && !child.isEqualNode(this.phantom)) {
-                    if (newTop > child.offsetTop) {
-                        hovered_i = i;
+        if (this.sortable) {
+            if (container) {
+                var hovered_i = -1;
+                for (var i = 0; i < container.children.length; i++) {
+                    var child = container.children[i];
+                    if (!child.isEqualNode(item) && !child.isEqualNode(this.phantom)) {
+                        if (newTop > child.offsetTop) {
+                            hovered_i = i;
+                        }
                     }
                 }
-            }
-            if (hovered_i > -1) {
-                container.insertBefore(this.phantom, container.children[hovered_i].nextSibling);    
+                if (hovered_i > -1) {
+                    container.insertBefore(this.phantom, container.children[hovered_i].nextSibling);    
+                } else {
+                    container.insertBefore(this.phantom, container.children[0]);
+                }
             } else {
-                container.insertBefore(this.phantom, container.children[0]);
+                item.parentNode.insertBefore(this.phantom, item.parentNode.children[item.index]);
             }
-        } else {
-            item.parentNode.insertBefore(this.phantom, item.parentNode.children[item.index]);
         }
         
         //reset container style
@@ -113,6 +116,9 @@ var Droppelganger = function(options) {
     this.onPanEnd = function(event, item){
         var container = this.isInContainer(item);
         if (container) {
+            if (!this.sortable) {
+                container.appendChild(this.phantom);
+            }
             container.replaceChild(item, this.phantom);
         } else {
             item.parentNode.removeChild(this.phantom);
