@@ -9,6 +9,13 @@ Droppelganger accept some options:
 ```javascript
 var options = {};
 
+//allows you to specify multiple independent instance droppelganger.
+options.selectors = {
+  container: 'your-container-class', //default: droppelganger-container
+  item     : 'your-item-class',      //default: droppelganger-item
+  handle   : 'your-item-handle-class'//default: droppelganger-item-handle
+};
+
 options.style =  {
   'moving': 'custom-style-when-item-moving',
   'container-hovered': 'custom-style-when-container-is-hovered'
@@ -31,3 +38,8 @@ options.panEndCallback = function(event, item, container) {
 //call Droppelganger constructor
 var droppelganger = new Droppelganger(options);
 ```
+
+
+## API
+
+ - ```droppelgangerInstance.reset() ``` Use .reset() to rebind hammerjs events. Use case: you want to add containers dynamically.

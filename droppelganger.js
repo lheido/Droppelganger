@@ -3,29 +3,40 @@ var Droppelganger = function(options) {
         throw "Hammer is undefined";
     }
     this.setOptions(options);
-    this.containers = document.getElementsByClassName('droppelganger-container');
-    this.items = document.getElementsByClassName('droppelganger-item');
-    var self = this;
-    Hammer.each(this.items, function(item, index, src){
-        var handles = item.getElementsByClassName('droppelganger-item-handle');
-        var mc = new Hammer((handles.length > 0) ? handles[0]: item);
-        if (handles.length > 0) {
-            item.style.cursor = 'default';
-        }
-        mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
-        mc.on('panstart', function(e){
-            self.onPanStart(e, item);
-        });
-        mc.on('panmove', function(e){
-            self.onPanMove(e, item);
-        });
-        mc.on('panend', function(e){
-            self.onPanEnd(e, item);
-        });
-    });
+    this.init();
 };
 
 (function() {
+    this.init = function() {
+        this.containers = document.getElementsByClassName(this.selectors.container);
+        this.items = document.getElementsByClassName(this.selectors.item);
+        var self = this;
+        Hammer.each(this.items, function(item, index, src){
+            var handles = item.getElementsByClassName(self.selectors.handle);
+            var mc = new Hammer((handles.length > 0) ? handles[0]: item);
+            if (handles.length > 0) {
+                item.style.cursor = 'default';
+            }
+            mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+            mc.on('panstart', function(e){
+                self.onPanStart(e, item);
+            });
+            mc.on('panmove', function(e){
+                self.onPanMove(e, item);
+            });
+            mc.on('panend', function(e){
+                self.onPanEnd(e, item);
+            });
+            item.mc = mc;
+        });
+    };
+    this.reset = function() {
+        for (var i = 0; i < this.items.length; i++) {
+            this.items[i].mc.destroy();
+        }
+        this.init();
+    }
+    
     this.setOptions = function(options) {
         var opt = (typeof options == 'undefined') ? {} : options;
         this.customStyle = {
@@ -62,6 +73,18 @@ var Droppelganger = function(options) {
         
         if (typeof opt.panEndCallback != 'undefined') {
             this.panEndCallback = opt.panEndCallback;
+        }
+        this.selectors = {
+            container: 'droppelganger-container',
+            item     : 'droppelganger-item',
+            handle   : 'droppelganger-item-handle'
+        }
+        if (typeof opt.selectors != 'undefined') {
+            for (var prop in opt.selectors) {
+                if (typeof opt.selectors[prop] != 'undefined') {
+                    this.selectors[prop] = opt.selectors[prop];
+                }
+            }
         }
     };
     
