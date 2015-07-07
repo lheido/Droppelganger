@@ -16,15 +16,15 @@ options.style =  {
 
 options.sortable = false; //or true by default
 
-options.panStartCallback = function(item, container) {
+options.panStartCallback = function(event, item, container) {
   //do something at the end of panstart event
 };
 
-options.panMoveCallback = function(item, container) {
+options.panMoveCallback = function(event, item, container) {
   //do something at the end of panmove event
 };
 
-options.panEndCallback = function(item, container) {
+options.panEndCallback = function(event, item, container) {
   //do something at the end of panend event
 };
 

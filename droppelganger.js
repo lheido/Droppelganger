@@ -91,7 +91,7 @@ var Droppelganger = function(options) {
         this.applyItemStyle(item);
         
         if (typeof this.panStartCallback != 'undefined') {
-            this.panStartCallback(item, item.parentNode);    
+            this.panStartCallback(event, item, item.parentNode);    
         }
     };
     
@@ -130,7 +130,7 @@ var Droppelganger = function(options) {
         }
         
         if (typeof this.panMoveCallback != 'undefined') {
-            this.panMoveCallback(item, (container)? container : item.parentNode);    
+            this.panMoveCallback(event, item, (container)? container : item.parentNode);    
         }
     };
     
@@ -148,7 +148,7 @@ var Droppelganger = function(options) {
         this.resetItemStyle(item);
         this.resetContainersStyle();
         if (typeof this.panEndCallback != 'undefined') {
-            this.panEndCallback(item, (container)? container : item.parentNode);    
+            this.panEndCallback(event, item, (container)? container : item.parentNode);    
         }
     };
     
