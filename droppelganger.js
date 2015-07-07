@@ -73,51 +73,52 @@ var Droppelganger = function(options) {
             left: offsetLeft
         };
         
-        item.classList.add('moving');
-        if (this.customStyle.moving) {
-            item.classList.add(this.customStyle.moving);
-        }
-        item.style.top = (offsetTop)+'px';
-        item.style.left = (offsetLeft)+'px';
-        item.style.width = window.getComputedStyle(this.phantom, '').getPropertyValue('width');
+        this.applyItemStyle(item);
     };
     
     this.onPanMove = function(event, item){
-        item.style.left = (event.center.x - item.orignalPostion.x + item.orignalPostion.left) + 'px';
-        item.style.top = (event.center.y - item.orignalPostion.y + item.orignalPostion.top) + 'px';
+        var newTop  = event.center.y - item.orignalPostion.y + item.orignalPostion.top,
+            newLeft = event.center.x - item.orignalPostion.x + item.orignalPostion.left;
+        item.style.top  = newTop + 'px';
+        item.style.left = newLeft + 'px';
         
-        this.resetContainersStyle();
         var container = this.isInContainer(item);
-        if (container && !container.isEqualNode(item.parentNode)) {
-            container.classList.add('container-hovered');
-            if (this.customStyle.containerHovered) {
-                container.classList.add(this.customStyle.containerHovered);
+        
+        if (container) {
+            var hovered_i = -1;
+            for (var i = 0; i < container.children.length; i++) {
+                var child = container.children[i];
+                if (!child.isEqualNode(item) && !child.isEqualNode(this.phantom)) {
+                    if (newTop > child.offsetTop) {
+                        hovered_i = i;
+                    }
+                }
             }
+            if (hovered_i > -1) {
+                container.insertBefore(this.phantom, container.children[hovered_i].nextSibling);    
+            } else {
+                container.insertBefore(this.phantom, container.children[0]);
+            }
+        } else {
+            item.parentNode.insertBefore(this.phantom, item.parentNode.children[item.index]);
+        }
+        
+        //reset container style
+        this.resetContainersStyle();
+        if (container && !container.isEqualNode(item.parentNode)) {
+            this.applyContainerStyle(container);
         }
     };
     
     this.onPanEnd = function(event, item){
         var container = this.isInContainer(item);
         if (container) {
-            
-            if (container.isEqualNode(item.parentNode)) {
-                //replace phantom
-                item.parentNode.replaceChild(item, this.phantom);
-            } else {
-                //remove phantom
-                item.parentNode.removeChild(this.phantom);
-                //append to container
-                container.appendChild(item);
-            }
-            
+            container.replaceChild(item, this.phantom);
         } else {
             item.parentNode.removeChild(this.phantom);
         }
         //reset style
-        item.classList.remove('moving');
-        if (this.customStyle.moving) {
-            item.classList.remove(this.customStyle.moving);
-        }
+        this.resetItemStyle(item);
         this.resetContainersStyle();
     };
     
@@ -142,6 +143,30 @@ var Droppelganger = function(options) {
             if (this.customStyle.containerHovered) {
                 this.containers[i].classList.remove(this.customStyle.containerHovered);
             }
+        }
+    };
+    
+    this.applyContainerStyle = function(container){
+        container.classList.add('container-hovered');
+        if (this.customStyle.containerHovered) {
+            container.classList.add(this.customStyle.containerHovered);
+        }
+    };
+    
+    this.applyItemStyle = function(item) {
+        item.classList.add('moving');
+        if (this.customStyle.moving) {
+            item.classList.add(this.customStyle.moving);
+        }
+        item.style.top = (item.orignalPostion.top)+'px';
+        item.style.left = (item.orignalPostion.left)+'px';
+        item.style.width = window.getComputedStyle(this.phantom, '').getPropertyValue('width');
+    };
+    
+    this.resetItemStyle = function(item) {
+        item.classList.remove('moving');
+        if (this.customStyle.moving) {
+            item.classList.remove(this.customStyle.moving);
         }
     };
 }).call(Droppelganger.prototype);
