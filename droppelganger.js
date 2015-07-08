@@ -109,7 +109,7 @@ var Droppelganger = function(options) {
             offsetTop   = elemRect.top - bodyRect.top,
             offsetLeft   = elemRect.left - bodyRect.left;
         
-        item.orignalPostion = {
+        item.original = {
             y: event.center.y,
             x: event.center.x,
             top: offsetTop,
@@ -124,8 +124,8 @@ var Droppelganger = function(options) {
     };
     
     this.onPanMove = function(event, item){
-        var newTop  = event.center.y - item.orignalPostion.y + item.orignalPostion.top,
-            newLeft = event.center.x - item.orignalPostion.x + item.orignalPostion.left;
+        var newTop  = event.center.y - item.original.y + item.original.top,
+            newLeft = event.center.x - item.original.x + item.original.left;
         item.style.top  = newTop + 'px';
         item.style.left = newLeft + 'px';
         
@@ -222,8 +222,8 @@ var Droppelganger = function(options) {
         if (this.customStyle.moving) {
             item.classList.add(this.customStyle.moving);
         }
-        item.style.top = (item.orignalPostion.top)+'px';
-        item.style.left = (item.orignalPostion.left)+'px';
+        item.style.top = (item.original.top)+'px';
+        item.style.left = (item.original.left)+'px';
         item.style.width = window.getComputedStyle(this.phantom, '').getPropertyValue('width');
     };
     

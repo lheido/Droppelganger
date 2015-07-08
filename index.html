@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Droppelganger</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="bower_components/hammerjs/hammer.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="droppelganger.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="droppelganger.css" type="text/css" media="all" />
     <style type="text/css" media="all">
+        html, body {
+            font-family: 'Roboto', 'Ubuntu', Arial, Helvetica, sans-serif;
+        }
         .droppelganger-container {
             display: inline-block;
             width: 400px;
@@ -17,15 +22,25 @@
         }
         .droppelganger-item {
             background-color: grey;
-            padding: 32px;
             margin: 10px;
+        }
+        .droppelganger-item .item-content {
+            position: relative;
+            padding: 32px;
         }
         .droppelganger-item-handle {
             background-color: #232323;
             color: white;
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 16px;
+            padding-top: 30px;
+            padding-bottom: 29px;
+            line-height: 0px;
         }
         .custom-moving {
-            box-shadow: 0px 0px 20px black;
+            box-shadow: 0px 0px 10px black;
         }
         .custom-overflown {
             border: 4px solid blue;
@@ -34,12 +49,34 @@
 </head>
 <body>
     <div class="droppelganger-container">
-        <div class="droppelganger-item"><div class="droppelganger-item-handle">HANDLE</div> item 1</div>
-        <div class="droppelganger-item">item 2</div>
-        <div class="droppelganger-item">item 3</div>
-        <div class="droppelganger-item">item 4</div>
-        <div class="droppelganger-item">item 5</div>
-    </div><div class="droppelganger-container"></div>
+        <div class="droppelganger-item">
+            <div class="item-content">
+                <div class="droppelganger-item-handle"><i class="material-icons">reorder</i></div>
+                item 1
+            </div>
+        </div>
+        <div class="droppelganger-item">
+            <div class="item-content">
+                item 2
+            </div>
+        </div>
+        <div class="droppelganger-item">
+            <div class="item-content">
+                item 3
+            </div>
+        </div>
+        <div class="droppelganger-item">
+            <div class="item-content">
+                item 4
+            </div>
+        </div>
+        <div class="droppelganger-item">
+            <div class="item-content">
+                item 5
+            </div>
+        </div>
+    </div>
+    <div class="droppelganger-container"></div>
     
     <script type="text/javascript" charset="utf-8">
         var droppelganger = new Droppelganger({
