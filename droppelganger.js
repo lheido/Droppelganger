@@ -153,7 +153,7 @@ var Droppelganger = function(options) {
         
         //reset container style
         this.resetContainersStyle();
-        if (container && !container.isEqualNode(item.parentNode)) {
+        if (container) {
             this.applyContainerStyle(container);
         }
         
