@@ -17,7 +17,8 @@ var Droppelganger = function(options) {
             if (handles.length > 0) {
                 item.style.cursor = 'default';
             }
-            mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+            mc.get('pan').set({ direction: Hammer.DIRECTION_ALL, preventDefault: true });
+            console.log(mc);
             mc.on('panstart', function(e){
                 self.onPanStart(e, item);
             });
@@ -104,10 +105,9 @@ var Droppelganger = function(options) {
         } else {
             item.parentNode.insertBefore(this.phantom, children[index]);
         }
-        var bodyRect = document.body.getBoundingClientRect(),
-            elemRect = this.phantom.getBoundingClientRect(),
-            offsetTop   = elemRect.top - bodyRect.top,
-            offsetLeft   = elemRect.left - bodyRect.left;
+        var elemRect = this.phantom.getBoundingClientRect(),
+            offsetTop   = elemRect.top + window.scrollY,
+            offsetLeft   = elemRect.left + window.scrollX;
         
         item.original = {
             y: event.center.y,
@@ -124,10 +124,22 @@ var Droppelganger = function(options) {
     };
     
     this.onPanMove = function(event, item){
-        var newTop  = event.center.y - item.original.y + item.original.top,
-            newLeft = event.center.x - item.original.x + item.original.left;
+        var newTop  = item.original.top + event.deltaY - 10,
+            newLeft = item.original.left + event.deltaX - 10;
+        
         item.style.top  = newTop + 'px';
         item.style.left = newLeft + 'px';
+        
+        var itemRect = item.getBoundingClientRect();
+        var relativeTop  = itemRect.top,
+            relativeLeft = itemRect.left;
+        console.log(relativeTop, relativeLeft);
+        // if (relativeTop > window.innerHeight - 200) {
+            // console.log('before scroll', event.center.y);
+            // document.body.scrollTop += 10;
+            // console.log('after scroll', event.center.y);
+            // item.style.top  = (newTop + 10) + 'px';
+        // }
         
         var container = this.isInContainer(item);
         if (this.sortable) {
